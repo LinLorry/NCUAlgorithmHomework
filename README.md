@@ -1,0 +1,2 @@
+# NCUAlgorithmHomework
+NCU Algorithm Homework.
