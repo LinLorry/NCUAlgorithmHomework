@@ -1,0 +1,1 @@
+add_executable(n_quenns n_quenns.cpp)
