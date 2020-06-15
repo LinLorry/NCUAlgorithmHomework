@@ -68,7 +68,7 @@ namespace ncu_algorithm_homework
     bool graph_color(const int color_num, int *const points_color, const int point_num, const bool *const adjacency)
     {
         int step = 0;
-        size_t i, j;
+        size_t i;
 
         for (i = 0; i < point_num; i++)
         {
@@ -77,31 +77,28 @@ namespace ncu_algorithm_homework
 
         while (true)
         {
-            if (step == point_num)
+            for (i = points_color[step] + 1; i < color_num; i++)
             {
-                return true;
-            }
-            for (i = step; i < point_num; i++)
-            {
-                for (j = points_color[i] + 1; j < color_num; j++)
+                if (check(step, i, points_color, adjacency + step * point_num))
                 {
-                    if (check(i, j, points_color, adjacency + i * point_num))
-                    {
-                        points_color[i] = j;
-                        step++;
-                        break;
-                    }
-                }
-                if (j == color_num)
-                {
-                    points_color[i] = -1;
-                    step--;
+                    points_color[step] = i;
+                    step++;
                     break;
                 }
             }
-            if (step == -1 && points_color[0] == -1)
+
+            if (i == color_num)
             {
-                return false;
+                points_color[step] = -1;
+                if (step == 0)
+                {
+                    return false;
+                }
+                step--;
+            }
+            else if (step == point_num)
+            {
+                return true;
             }
         }
     }
