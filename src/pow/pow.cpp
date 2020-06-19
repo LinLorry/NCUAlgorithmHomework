@@ -1,25 +1,40 @@
 #include <iostream>
+#include <fstream>
 #include <pow.h>
-#include <time.h>
 
 using ncu_algorithm_homework::pow;
 
-using std::cin;
 using std::cout;
 using std::endl;
 
+static const long long n = 100000L, count = 10;
+static const int count_max_length = 11;
+
 int main()
 {
-    const long long n = 10000L, count = 10;
     int p[n];
-    double b[n], reuslt[n];
+    double b[n];
+
     clock_t startTime, endTime;
-    long long useTime[count] = {0};
+    std::ofstream fout("log/pow.log", std::ios_base::out | std::ios_base::app);
+    time_t rawtime;
+    struct tm *info;
+    char time_str[80];
+
+    srand((unsigned int)time(&rawtime));
+    info = localtime(&rawtime);
+    strftime(time_str, 80, "%Y-%m-%d %H:%M:%S", info);
+
+    fout << "------------------------------------" << endl;
+    fout << "Test time: " << time_str << endl;
+    fout << "Test number: " << n << endl;
+    fout << "------------------------------------" << endl;
+    fout.width(count_max_length);
+    fout << "Value number\tUse Time" << endl;
 
     for (size_t i = 0; i < count; i++)
     {
-        useTime[i] = 0;
-
+        const long number = (long)pow(10, i);
         for (size_t j = 0; j < n; j++)
         {
             b[j] = rand() % 100;
@@ -29,23 +44,25 @@ int main()
             }
             else
             {
-                p[j] = (long)pow(10, i - 1) + rand() % ((long)pow(10, i) - (long)pow(10, i - 1));
+                p[j] = number + rand() % ((long)pow(10, i + 1) - number);
             }
         }
 
         startTime = clock();
         for (size_t j = 0; j < n; j++)
         {
-            reuslt[j] = pow(b[j], p[j]);
+            pow(b[j], p[j]);
         }
         endTime = clock();
-        useTime[i] = endTime - startTime;
+        fout.width(count_max_length);
+        cout.width(count_max_length);
+        fout << number << ":\t" << endTime - startTime << endl;
+        cout << number << ":\t" << endTime - startTime << endl;
     }
 
-    for (size_t i = 0; i < count; i++)
-    {
-        cout << i << ": " << (double)useTime[i] / CLOCKS_PER_SEC << endl;
-    }
+    fout << "------------------------------------" << endl
+         << endl;
+    fout.close();
 }
 
 double ncu_algorithm_homework::pow(const double b, const int p)
