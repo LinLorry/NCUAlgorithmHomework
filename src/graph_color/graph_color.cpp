@@ -1,3 +1,4 @@
+#include <fstream>
 #include <iostream>
 #include <graph_color.h>
 
@@ -5,8 +6,8 @@ using ncu_algorithm_homework::graph_color;
 using std::cout;
 using std::endl;
 
-#define n 100
-#define count 20
+static const long long n = 1000, count = 30;
+static const int count_max_length = 11;
 
 int main()
 {
@@ -16,8 +17,21 @@ int main()
     bool *adjacency[n];
 
     clock_t startTime, endTime;
+    std::ofstream fout("log/graph_color.log", std::ios_base::out | std::ios_base::app);
+    time_t rawtime;
+    struct tm *info;
+    char time_str[80];
 
-    srand((unsigned int)time(NULL));
+    srand((unsigned int)time(&rawtime));
+    info = localtime(&rawtime);
+    strftime(time_str, 80, "%Y-%m-%d %H:%M:%S", info);
+
+    fout << "------------------------------------" << endl;
+    fout << "Test time: " << time_str << endl;
+    fout << "Test number: " << n << endl;
+    fout << "------------------------------------" << endl;
+    fout.width(count_max_length);
+    fout << "Point number\tUse Time" << endl;
 
     for (size_t i = 10; i < count; i++)
     {
@@ -43,14 +57,20 @@ int main()
             graph_color(color_num[j], points_color[j], point_num, adjacency[j]);
         }
         endTime = clock();
+        fout.width(count_max_length);
+        cout.width(count_max_length);
+        fout << point_num << ":\t" << endTime - startTime << endl;
+        cout << point_num << ":\t" << endTime - startTime << endl;
 
         for (size_t j = 0; j < n; j++)
         {
             delete[] points_color[j];
             delete[] adjacency[j];
         }
-        cout << i << ": " << endTime - startTime << endl;
     }
+    fout << "------------------------------------" << endl
+         << endl;
+    fout.close();
 }
 
 namespace ncu_algorithm_homework
