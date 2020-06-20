@@ -1,0 +1,1 @@
+add_executable(knapsack_dynamic knapsack_dynamic.cpp)

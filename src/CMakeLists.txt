@@ -11,3 +11,5 @@ add_subdirectory(n_quenns)
 add_subdirectory(huffman)
 
 add_subdirectory(lcs)
+
+add_subdirectory(knapsack_dynamic)
