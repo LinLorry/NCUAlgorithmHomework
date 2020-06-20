@@ -9,3 +9,5 @@ add_subdirectory(graph_color)
 add_subdirectory(n_quenns)
 
 add_subdirectory(huffman)
+
+add_subdirectory(lcs)
