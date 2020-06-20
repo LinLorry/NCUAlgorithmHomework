@@ -15,3 +15,5 @@ add_subdirectory(lcs)
 add_subdirectory(knapsack_dynamic)
 
 add_subdirectory(integer_division)
+
+add_subdirectory(dijkstra)
